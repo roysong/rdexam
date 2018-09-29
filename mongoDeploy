@@ -1,0 +1,16 @@
+port 27000
+
+> use admin
+switched to db admin
+> db.createUser({
+... user: 'eno_admin',
+... pwd: 'enovell88',
+... roles: [{role: 'root',db: 'admin'}]
+... })
+
+
+> db.createUser({
+... user: 'sdhis',
+... pwd: 'Eno35hxd693',
+... roles: [{role: 'readWrite',db: 'exam'}]
+... })
