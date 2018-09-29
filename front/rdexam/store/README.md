@@ -1,11 +1,4 @@
 # STORE
-
-This directory contains your Vuex Store files.
-Vuex Store option is implemented in the Nuxt.js framework.
-Creating a index.js file in this directory activate the option in the framework automatically.
-
-More information about the usage of this directory in the documentation:
-https://nuxtjs.org/guide/vuex-store
-
-**This directory is not required, you can delete it if you don't want to use it.**
-
+本目录为状态数据目录，采用的是vuex的store模型。
+本目录下的index.js会自动激活nuxt框架下的对应配置项，即设置根实例的store配置项。
+本目录并非必须，不需要时可以删除。
