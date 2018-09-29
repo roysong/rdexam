@@ -26,13 +26,18 @@ module.exports = {
   ],
 
   /*
-  ** Add element-ui in our app, see plugins/element-ui.js file
+  ** Add element-ui in our app, see plugins/ElementUI.js file
   */
   plugins: [
     {src: '@/plugins/ElementUI',ssr: true}
   ],
   /*---------add elementui cfg end----------*/
 
+  /*---------add middleware cfg start--------*/
+  router: {
+    middleware: 'AuthFilter'
+  },
+  /*---------add middleware cfg end----------*/
 
   /*---------add axios cfg start--------*/
   modules: [
@@ -50,6 +55,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
+    vendor: ['axios','element-ui']
   }
 }
 
