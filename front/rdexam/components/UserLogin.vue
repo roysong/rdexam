@@ -54,7 +54,11 @@ export default {
                 this.$message('用户名或密码错误，请检查后重新输入！')
                 return
             }
-            console.log(data)
+            this.$store.commit('logged',data)
+            if(data.admin)
+                this.$router.push({path: '/admin'})
+            else
+                this.$router.push({path: '/exam'})
         }
     }
 }

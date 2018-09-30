@@ -7,9 +7,8 @@
 <script>
 import { mapGetters } from 'vuex'
 import UserLogin from '~/components/UserLogin'
-console.log(UserLogin )
 export default {
-  computed: mapGetters(['isLogin','loggedUser']),
+  computed: mapGetters(['isLogin','isAdmin']),
   components: {UserLogin}
 }
 </script>
