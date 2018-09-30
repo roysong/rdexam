@@ -4,6 +4,9 @@ export const state = () => ({
 export const mutations = {
   logoff (state){
     state.user = null
+  },
+  logged (state,user) {
+    state.user = user
   }
 }
 export const actions = {
@@ -16,6 +19,9 @@ export const actions = {
 export const getters = {
   isLogin (state) {
     return !!state.user
+  },
+  isAdmin (state) {
+    return state.user && state.user.admin
   },
   loggedUser (state) {
     return state.user
