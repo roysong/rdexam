@@ -2,7 +2,7 @@
   <el-card class="box-card">
     <div slot="header" class="clearfix">
       <span>用户信息</span>
-      <el-button style="float: right;" type="danger" size="small">退出登录</el-button>
+      <el-button @click="logOut" style="float: right;" type="danger" size="small">退出登录</el-button>
     </div>
     <div class="text-center">
       <el-row :gutter="20">
@@ -42,7 +42,7 @@
         name: "UserInfo",
       computed:{
         userName(){
-          return this.$store.state.user.name;
+          return this.$store.state.user?this.$store.state.user.userName:'未登录';
         },
         score(){
           console.log(this.$store.state)
@@ -62,6 +62,13 @@
         },
         mouthErrorScore(){
           return this.score.mouthError*2;
+        }
+      },
+      methods:{
+        logOut(){
+          console.log("退出登录")
+          this.$store.commit("logoff")
+          this.$router.go(0)
         }
       }
     }
