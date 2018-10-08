@@ -66,7 +66,7 @@
       },
       methods:{
         logOut(){
-          console.log("退出登录")
+          this.$axios.get("/logout")
           this.$store.commit("logoff")
           this.$router.go(0)
         }
