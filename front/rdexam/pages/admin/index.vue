@@ -1,19 +1,21 @@
 <template>
     <el-container class="adminMain">
         <left-nav />
+        <right-tab />
     </el-container>
 </template>
 
 <script>
 import LeftNav from '~/components/admin/LeftNav'
+import RightTab from '~/components/admin/RightTab'
 export default {
-  components: {LeftNav}
+  components: {LeftNav,RightTab}
 }
 </script>
 
 <style>
 .adminMain{
-    height: 500px;
-    border: 1px solid #eee;
+  border: 1px solid #eee;
+  width: 100%;
 }
 </style>
