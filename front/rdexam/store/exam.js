@@ -6,30 +6,17 @@ export const state = () => ({
   pageSize: 20,
   currentPage: 1,
   activeRow: {},
-  examDatas: []
-});
-
-export const mutations = {
-  getPageData(state,pageData){
-    state.examDatas = pageData
-  }
-};
-
- * 分数sotre
- * @author bili
- * @date 18-9-30
- */
-export const state = ()=>({
+  examDatas: [],
   /**
    * 当月答题和累计答题
    */
   score:{
-      allSubmit:0,//累计答题
-      allRight:0,//累计正确
-      allError:0,//累计错误
-      mouthSub:0,//当月答题
-      mouthRight:0,//当月正确
-      mouthError:0//当月错误
+    allSubmit:0,//累计答题
+    allRight:0,//累计正确
+    allError:0,//累计错误
+    mouthSub:0,//当月答题
+    mouthRight:0,//当月正确
+    mouthError:0//当月错误
   },
   /**
    * 当前题目
@@ -40,7 +27,11 @@ export const state = ()=>({
     options:[]//选项
   }
 });
+
 export const mutations = {
+  getPageData(state,pageData){
+    state.examDatas = pageData
+  },
   updateExam(state,newExam){
     state.nowExam = newExam;
   },
@@ -59,4 +50,4 @@ export const mutations = {
     state.score.allError+=1;
     state.score.mouthError+=1;
   }
-}
+};

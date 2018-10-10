@@ -27,15 +27,15 @@
       }
     },
     async created() {
-      console.log(this.$store.state.user,'user')
+      console.log(this.$store.state.user, 'user')
       let params = new URLSearchParams();
-      params.append("userName",this.$store.state.user.userName);
-      let {data} = await this.$axios.post("/getExam",params);
-      if(data){
-        this.$store.commit("exam/updateExam",data);
+      params.append("userName", this.$store.state.user.userName);
+      let {data} = await this.$axios.post("/getExam", params);
+      if (data) {
+        this.$store.commit("exam/updateExam", data);
       }
     },
-        methods: {
+    methods: {
       /**
        * 获取新的一套题目
        */
@@ -59,14 +59,14 @@
       async isRightHandle() {
         this.radioDisabled = true;
         let params = new URLSearchParams();
-        params.append("userName",this.$store.state.user.userName);
-        params.append("examId",this.$store.state.exam.nowExam.id);
-        params.append("answer",this.answer);
-        let {data} = await this.$axios.post("/isRight",params);
-        if(data && data.isRight==='1'){
+        params.append("userId", this.$store.state.user.id);
+        params.append("examId", this.$store.state.exam.nowExam.id);
+        params.append("answer", this.answer);
+        let {data} = await this.$axios.post("/isRight", params);
+        if (data && data.isRight === '1') {
           this.$message.success('回答正确');
           this.$store.commit("exam/addRight")
-        }else{
+        } else {
           this.$message.error('错了哦');
           this.$store.commit("exam/addError")
         }
