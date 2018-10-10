@@ -65,12 +65,12 @@
         let {data} = await this.$axios.post("/isRight", params);
         if (data && data.isRight === '1') {
           this.$message.success('回答正确');
-          this.$store.commit("exam/addRight")
+          this.$store.commit("score/addRight")
         } else {
           this.$message.error('错了哦');
-          this.$store.commit("exam/addError")
+          this.$store.commit("score/addError")
         }
-        this.$store.commit("exam/addSub");
+        this.$store.commit("score/addSub");
       }
     }
   }

@@ -67,7 +67,7 @@
       param.append('currentPage',this.$store.state.exam.currentPage)
       param.append('pageSize',pageSize)
       let _self = this;
-      this.$axios.post(this.$store.state.exam.pageUrl,param).then(res ->{
+      this.$axios.post(this.$store.state.exam.pageUrl,param).then(res=>{
         let data = res.data
         _self.$store.commit('exam/getPageData',data)
       });

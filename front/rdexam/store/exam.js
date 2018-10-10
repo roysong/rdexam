@@ -8,17 +8,6 @@ export const state = () => ({
   activeRow: {},
   examDatas: [],
   /**
-   * 当月答题和累计答题
-   */
-  score:{
-    allSubmit:0,//累计答题
-    allRight:0,//累计正确
-    allError:0,//累计错误
-    mouthSub:0,//当月答题
-    mouthRight:0,//当月正确
-    mouthError:0//当月错误
-  },
-  /**
    * 当前题目
    */
   nowExam:{
@@ -34,20 +23,5 @@ export const mutations = {
   },
   updateExam(state,newExam){
     state.nowExam = newExam;
-  },
-  updateScore(state,newScore){
-    state.score = newScore;
-  },
-  addSub(state){
-    state.score.mouthSub++;
-    state.score.allSubmit++;
-  },
-  addRight(state){
-    state.score.allRight++;
-    state.score.mouthRight++;
-  },
-  addError(state){
-    state.score.allError+=1;
-    state.score.mouthError+=1;
   }
 };
