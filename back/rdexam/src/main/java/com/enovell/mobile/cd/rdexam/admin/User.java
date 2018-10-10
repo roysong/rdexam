@@ -25,6 +25,15 @@ public class User {
 	 * 用户表名称
 	 */
 	public static final String USER_COLLECTION_NAME = "eno_user";
+	private String id;
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	private String userName;
 	private String password;
 	private Boolean admin;
@@ -85,6 +94,7 @@ public class User {
 	}
 
 	private User convertDocToUser(Document loginUser) {
+		this.setId(loginUser.getObjectId("_id").toHexString());
 		this.setAdmin(loginUser.getBoolean("admin"));
 		this.setUserName(loginUser.getString("userName"));
 		return this;
