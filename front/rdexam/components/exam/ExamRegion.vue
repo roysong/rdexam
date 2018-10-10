@@ -23,7 +23,8 @@
     data() {
       return {
         answer: null,
-        radioDisabled: false
+        radioDisabled: false,
+        msg:null
       }
     },
     async created() {
@@ -49,6 +50,9 @@
         if (this.radioDisabled) {
           this.radioDisabled = false;
           this.answer = null;
+          if(this.msg){
+            this.msg.close()
+          }
         } else {
           this.$message.warning('请先作答');
         }
@@ -64,10 +68,10 @@
         params.append("answer", this.answer);
         let {data} = await this.$axios.post("/isRight", params);
         if (data && data.isRight === '1') {
-          this.$message.success('回答正确');
+          this.msg = this.$message({message:'回答正确',type:'success',duration:0});
           this.$store.commit("score/addRight")
         } else {
-          this.$message.error('错了哦');
+          this.msg = this.$message({message:'错了哦',type:'error',duration:0});
           this.$store.commit("score/addError")
         }
         this.$store.commit("score/addSub");
