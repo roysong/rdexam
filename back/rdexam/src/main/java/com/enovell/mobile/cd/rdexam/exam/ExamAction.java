@@ -26,8 +26,6 @@ public class ExamAction {
 	@Resource(name="EnoExam")
 	private Exam exam;
 
-	@Resource(name = "examDto")
-	private ExamDto examDto;
 	@RequestMapping("/login")
 	public User login(@RequestParam String userName,@RequestParam String password,HttpServletRequest request) {
 		User loginUser = user.getUser(userName, password);
@@ -44,11 +42,11 @@ public class ExamAction {
 	}
 	@RequestMapping("/getExam")
 	public ExamDto getExam(String userId){
-		return examDto.getOneExam(userId);
+		return exam.getOneExam(userId);
 	}
 	@RequestMapping("/isRight")
 	public Map isRight(String userId, String examId, String answer){
-		return examDto.isRight(userId,examId,answer);
+		return exam.isRight(userId,examId,answer);
 	}
 
 	@RequestMapping("/exam/list")
