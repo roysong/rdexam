@@ -27,7 +27,12 @@ public class Exam {
 	@Value("${mongodb.uri}")
 	private String mongoUri;
 
-	public static final String EXAM_COLLECTION_NAME = "eno_exam";
+	public static final String FRONTEND_COLLECTION_NAME = "eno_exam_frontend"; //前端题目
+	public static final String BACKEND_COLLECTION_NAME = "eno_exam_backend"; //后端题目
+	public static final String TEST_COLLECTION_NAME = "eno_exam_test"; //测试题目
+	public static final String TRANS_COLLECTION_NAME = "eno_exam_trans"; //传输题目
+	public static final String OPS_COLLECTION_NAME = "eno_exam_ops"; //运维题目
+	public static final String SOFTWARE_COLLECTION_NAME = "eno_exam_software"; //软件工程
 	/**查询试题分页数据以供后台管理
 	 * @param activeTabName
 	 * @param currentPage
@@ -53,25 +58,25 @@ public class Exam {
 	 * 新增题目
 	 * @param dto 题目对象
 	 */
-	public void addExam(ExamDto dto){
+	public void addExam(ExamDto dto,String collectionName){
 		if(dto == null){return;}
 		Document exam = convertExamToDoc(dto);
 		try (MongoClient mc = new MongoClient(new MongoClientURI(mongoUri))){
 			MongoDatabase md = mc.getDatabase(Consts.DB_NAME);
-			md.getCollection(EXAM_COLLECTION_NAME).insertOne(exam);
+			md.getCollection(collectionName).insertOne(exam);
 		}
 	}
 
 	/**
 	 * 修改题目
-	 * @param dto
+	 * @param dto 题目对象
 	 */
-	public void updateExam(ExamDto dto){
+	public void updateExam(ExamDto dto,String collectionName){
 		if(dto == null){return;}
 		try(MongoClient mc = new MongoClient((new MongoClientURI(mongoUri)))){
 			MongoDatabase md = mc.getDatabase(Consts.DB_NAME);
 			Document update = new Document("$set",convertExamToDoc(dto));
-			md.getCollection(EXAM_COLLECTION_NAME)
+			md.getCollection(collectionName)
 					.updateOne(Filters.eq("_id",new ObjectId(dto.getId())),update);
 		}catch (Exception e){
 			e.printStackTrace();
@@ -82,10 +87,10 @@ public class Exam {
 	 * 删除题目
 	 * @param examId 题目id
 	 */
-	public void deleteExam(String examId){
+	public void deleteExam(String examId,String collectionName){
 		try (MongoClient mc = new MongoClient(new MongoClientURI(mongoUri))){
 			MongoDatabase md = mc.getDatabase(Consts.DB_NAME);
-			md.getCollection(EXAM_COLLECTION_NAME).deleteOne(new Document("_id",new ObjectId(examId)));
+			md.getCollection(collectionName).deleteOne(new Document("_id",new ObjectId(examId)));
 		}catch (Exception e){
 			e.printStackTrace();
 		}
@@ -109,7 +114,7 @@ public class Exam {
 	 * @return 题目
 	 */
 	public ExamDto getOneExam(String userId){
-		//获取当月生成的题目
+		//todo 获取当月生成的题目
 		//返回一道未答的题
 		ExamDto dto = new ExamDto();
 		Random random = new Random();
@@ -130,11 +135,11 @@ public class Exam {
 	 * @param userId 用户名
 	 * @param examId 题目id
 	 * @param answer 提交的答案
-	 * @return
+	 * @return 是否回答正确
 	 */
 	public Map isRight(String userId, String examId, String answer){
 		Map<String,String> resutl = new HashMap<>();
-		//获取题目,判断答题是否正确
+		//todo 获取题目,判断答题是否正确
 		if("测试选项2".equals(answer)){
 			resutl.put("isRight","1");
 		}else{
@@ -143,5 +148,15 @@ public class Exam {
 		//答题结果录入到用户的答题记录中
 
 		return resutl;
+	}
+
+	/**
+	 * 根据用户生成月题目
+	 * @param userId 用户id
+	 */
+	public void initMouthExan(String userId){
+		//todo 根据用户id获取所属角色
+		//根据角色中的题目比例生成题目
+		//生成的题目保存到月答题表中
 	}
 }

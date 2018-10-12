@@ -27,17 +27,19 @@ import static org.junit.Assert.*;
 public class ExamTest {
     private List<String> majros;
     private List<String> tags;
-
+    private List<String> collectionNames;
     @Resource(name="EnoExam")
     private Exam enoExam;
 
     @Before
     public void before() {
-        this.majros = new ArrayList<>();
-        majros.add("前端");
-        majros.add("后端");
-        majros.add("测试");
-        majros.add("业务");
+        majros = new ArrayList<>();
+        majros.add("前端技术");
+        majros.add("后端技术");
+        majros.add("测试知识");
+        majros.add("传输业务");
+        majros.add("运维环境");
+        majros.add("软件工程");
         this.tags = new ArrayList<>();
         tags.add("java");
         tags.add("js");
@@ -49,6 +51,13 @@ public class ExamTest {
         tags.add("spring");
         tags.add("springboot");
         tags.add("springcloud");
+        collectionNames = new ArrayList<>();
+        collectionNames.add(Exam.FRONTEND_COLLECTION_NAME);
+        collectionNames.add(Exam.BACKEND_COLLECTION_NAME);
+        collectionNames.add(Exam.TEST_COLLECTION_NAME);
+        collectionNames.add(Exam.TRANS_COLLECTION_NAME);
+        collectionNames.add(Exam.OPS_COLLECTION_NAME);
+        collectionNames.add(Exam.SOFTWARE_COLLECTION_NAME);
     }
 
     @Test
@@ -57,23 +66,27 @@ public class ExamTest {
 
     @Test
     public void addExam() {
-        Random random = new Random();
-        int id = random.nextInt(500);
-        ExamDto dto = new ExamDto();
-        dto.setTitle("test 测试题目?\n测试:" + id);
-        List<String> options = new ArrayList<>();
-        options.add("测试选项1:" + id);
-        options.add("测试选项2:" + id);
-        options.add("测试选项3:" + id);
-        options.add("测试选项4:" + id);
-        dto.setOptions(options);
-        dto.setId(id + "");
-        dto.setMajor(this.majros.get(random.nextInt(3)));
-        List<String> tag = new ArrayList<>();
-        tag.add(this.tags.get(random.nextInt(9)));
-        dto.setTags(tag);
-        dto.setRight("测试选项"+(random.nextInt(3)+1)+":"+id);
-        enoExam.addExam(dto);
+        for(int i = 0; i<200;i++) {
+            Random random = new Random();
+            int id = random.nextInt(500);
+            int majorIndex = random.nextInt(6);
+            ExamDto dto = new ExamDto();
+            dto.setTitle(this.majros.get(majorIndex)+"题目"+id);
+            List<String> options = new ArrayList<>();
+            options.add("测试选项1:" + id);
+            options.add("测试选项2:" + id);
+            options.add("测试选项3:" + id);
+            options.add("测试选项4:" + id);
+            dto.setOptions(options);
+            dto.setId(id + "");
+
+            dto.setMajor(this.majros.get(majorIndex));
+            List<String> tag = new ArrayList<>();
+            tag.add(this.tags.get(random.nextInt(9)));
+            dto.setTags(tag);
+            dto.setRight("测试选项" + (random.nextInt(3) + 1) + ":" + id);
+            enoExam.addExam(dto, collectionNames.get(majorIndex));
+        }
     }
     @Test
     public void updateExam(){
@@ -86,13 +99,13 @@ public class ExamTest {
         options.add("测试选项33:");
         options.add("测试选项44:");
         exam.setOptions(options);
-        exam.setMajor("11111");
-       enoExam.updateExam(exam);
+        exam.setMajor("传输业务");
+        enoExam.updateExam(exam,collectionNames.get(majros.indexOf(exam.getMajor())));
     }
     @Test
     public void deleteExam(){
         String examId = "5bbf0ab98dd81329bc540dc9";
-        enoExam.deleteExam(examId);
+        enoExam.deleteExam(examId,collectionNames.get(majros.indexOf("传输业务")));
     }
     @Test
     public void getOneExam() {
