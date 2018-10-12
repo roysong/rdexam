@@ -31,6 +31,7 @@ public class Exam {
 	 * @return
 	 */
 	public List<Document> query(String activeTabName, String currentPage, String pageSize) {
+		logger.info("从第"+currentPage+"页开始查询["+activeTabName+"]中的分页试题，每页"+pageSize+"条");
 		List<Document> result = new ArrayList<>();
 		try (MongoClient mc = new MongoClient(new MongoClientURI(mongoUri))) {
 			MongoDatabase md = mc.getDatabase(Consts.DB_NAME);

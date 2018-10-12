@@ -60,30 +60,22 @@
         console.log(row);
       }
     },
-    fetch(){
-      let activeTab = this.$store.state.admin.activeTabName
+    fetch({store, params}){
+      console.log('begin fetch')
+      let activeTab = store.state.admin.activeTabName
       let param = new URLSearchParams();
       param.append('activeTabName',activeTab);
-      param.append('currentPage',this.$store.state.exam.currentPage)
-      param.append('pageSize',pageSize)
-      let _self = this;
-      this.$axios.post(this.$store.state.exam.pageUrl,param).then(res=>{
+      param.append('currentPage',store.state.exam.currentPage);
+      param.append('pageSize',pageSize);
+      console.log(axios)
+      axios.post(store.state.exam.pageUrl,param).then(res=>{
         let data = res.data
-        _self.$store.commit('exam/getPageData',data)
+        store.commit('exam/getPageData',data)
       });
     },
-    data() {
-      return {
-        tableData: [
-        {
-          question: '2016-05-03',
-          rightIdx: 3,
-          optiona: '王小虎',
-          optionb: '上海',
-          optionc: '普陀区',
-          optiond: '上海市普陀区金沙江路 1518 弄'
-        }
-        ]
+    computed: {
+      tableData: {
+        get: function(){return this.$store.state.exam.examDatas}
       }
     }
   }
