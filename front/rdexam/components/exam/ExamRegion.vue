@@ -12,7 +12,8 @@
       <el-radio @change="isRightHandle" :disabled="radioDisabled" v-model="answer" :label="o" border>{{o}}</el-radio>
     </div>
     <el-button-group class="fl-r">
-      <el-button @click="nextOne" type="primary">下一题<i class="el-icon-arrow-right el-icon--right"></i></el-button>
+      <el-button v-if="isNext" @click="nextOne" type="primary">下一题<i class="el-icon-arrow-right el-icon--right"></i>
+      </el-button>
     </el-button-group>
   </el-card>
 </template>
@@ -24,11 +25,15 @@
       return {
         answer: null,
         radioDisabled: false,
-        msg:null
+        msg: null
+      }
+    },
+    computed: {
+      isNext() {
+        return this.$store.state.score.mouthSub < 50
       }
     },
     async created() {
-      console.log(this.$store.state.user, 'user')
       let params = new URLSearchParams();
       params.append("userName", this.$store.state.user.userName);
       let {data} = await this.$axios.post("/getExam", params);
@@ -48,11 +53,18 @@
        */
       nextOne() {
         if (this.radioDisabled) {
-          this.radioDisabled = false;
-          this.answer = null;
-          if(this.msg){
-            this.msg.close()
-          }
+          let params = new URLSearchParams();
+          params.append("userName", this.$store.state.user.userName);
+          this.$axios.post("/getExam", params).then(res => {
+            if (res.data) {
+              this.$store.commit("exam/updateExam", res.data);
+              this.radioDisabled = false;
+              this.answer = null;
+              if (this.msg) {
+                this.msg.close();
+              }
+            }
+          });
         } else {
           this.$message.warning('请先作答');
         }
@@ -68,10 +80,10 @@
         params.append("answer", this.answer);
         let {data} = await this.$axios.post("/isRight", params);
         if (data && data.isRight === '1') {
-          this.msg = this.$message({message:'回答正确',type:'success',duration:0});
+          this.msg = this.$message({message: '回答正确', type: 'success', duration: 0});
           this.$store.commit("score/addRight")
         } else {
-          this.msg = this.$message({message:'错了哦',type:'error',duration:0});
+          this.msg = this.$message({message: '错了哦', type: 'error', duration: 0});
           this.$store.commit("score/addError")
         }
         this.$store.commit("score/addSub");
