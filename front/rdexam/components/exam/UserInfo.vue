@@ -60,7 +60,6 @@
         return this.$store.state.user ? this.$store.state.user.userName : '未登录';
       },
       score() {
-        console.log(this.$store.state.score,'score')
         return this.$store.state.score;
       },
       correctRate() {

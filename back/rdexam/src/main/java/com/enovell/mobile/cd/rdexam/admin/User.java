@@ -1,16 +1,16 @@
 package com.enovell.mobile.cd.rdexam.admin;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.bson.Document;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 import com.enovell.mobile.cd.rdexam.util.Consts;
 import com.enovell.mobile.cd.rdexam.util.Md5Utils;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoDatabase;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.bson.Document;
+import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * 登录用户模型
@@ -98,5 +98,22 @@ public class User {
 		this.setAdmin(loginUser.getBoolean("admin"));
 		this.setUserName(loginUser.getString("userName"));
 		return this;
+	}
+
+	/**
+	 * 根据用户id查询用户
+	 * @param userId 用户id
+	 * @return User
+	 */
+	private User getUserById(String userId){
+		try(MongoClient mc = new MongoClient((new MongoClientURI(mongoUri)))) {
+			MongoDatabase md = mc.getDatabase(Consts.DB_NAME);
+			Document filter = new Document("_id", new ObjectId(userId));
+			Document user = md.getCollection(USER_COLLECTION_NAME).find(filter).first();
+			return convertDocToUser(user);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
