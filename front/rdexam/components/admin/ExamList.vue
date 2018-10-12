@@ -5,27 +5,27 @@
     border
     style="width: 100%">
     <el-table-column
-      prop="question"
+      prop="title"
       label="题面"
       min-width="400">
     </el-table-column>
     <el-table-column
-      prop="optiona"
+      prop="options[0]"
       label="选项a"
       width="300">
     </el-table-column>
     <el-table-column
-      prop="optionb"
+      prop="options[1]"
       label="选项b"
       width="300">
     </el-table-column>
     <el-table-column
-      prop="optionc"
+      prop="options[2]"
       label="选项c"
       width="300">
     </el-table-column>
     <el-table-column
-      prop="optiond"
+      prop="options[3]"
       label="选项d"
       width="300">
     </el-table-column>
@@ -58,21 +58,36 @@
       },
       deleteItem(row) {
         console.log(row);
+
       }
     },
-    fetch({store, params}){
-      console.log('begin fetch')
-      let activeTab = store.state.admin.activeTabName
+    beforeCreate(){
+      console.log("exam list created");
+      let activeTab = this.$store.state.admin.activeTabName
       let param = new URLSearchParams();
       param.append('activeTabName',activeTab);
-      param.append('currentPage',store.state.exam.currentPage);
-      param.append('pageSize',pageSize);
-      console.log(axios)
-      axios.post(store.state.exam.pageUrl,param).then(res=>{
+      param.append('currentPage',this.$store.state.exam.currentPage);
+      // param.append('pageSize',pageSize);
+      param.append('pageSize',10);
+      // console.log(axios)
+      this.$axios.post(this.$store.state.exam.pageUrl,param).then(res=>{
         let data = res.data
-        store.commit('exam/getPageData',data)
+        this.$store.commit('exam/getPageData',data)
       });
     },
+    // fetch({store, params}){
+    //   console.log('begin fetch')
+    //   let activeTab = store.state.admin.activeTabName
+    //   let param = new URLSearchParams();
+    //   param.append('activeTabName',activeTab);
+    //   param.append('currentPage',store.state.exam.currentPage);
+    //   param.append('pageSize',pageSize);
+    //   console.log(axios)
+    //   axios.post(store.state.exam.pageUrl,param).then(res=>{
+    //     let data = res.data
+    //     store.commit('exam/getPageData',data)
+    //   });
+    // },
     computed: {
       tableData: {
         get: function(){return this.$store.state.exam.examDatas}
