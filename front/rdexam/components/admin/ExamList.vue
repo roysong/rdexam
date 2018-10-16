@@ -62,35 +62,23 @@
       }
     },
     beforeCreate(){
-      console.log("exam list created");
-      let activeTab = this.$store.state.admin.activeTabName
+      let activeTab = this.$store.state.admin.activeTabName;
       let param = new URLSearchParams();
       param.append('activeTabName',activeTab);
       param.append('currentPage',this.$store.state.exam.currentPage);
-      // param.append('pageSize',pageSize);
-      param.append('pageSize',10);
-      // console.log(axios)
+      param.append('pageSize',this.$store.state.exam.pageSize);
       this.$axios.post(this.$store.state.exam.pageUrl,param).then(res=>{
         let data = res.data
-        this.$store.commit('exam/getPageData',data)
+        this.$store.commit('exam/getPageData',{data:data,tab:activeTab})
       });
     },
-    // fetch({store, params}){
-    //   console.log('begin fetch')
-    //   let activeTab = store.state.admin.activeTabName
-    //   let param = new URLSearchParams();
-    //   param.append('activeTabName',activeTab);
-    //   param.append('currentPage',store.state.exam.currentPage);
-    //   param.append('pageSize',pageSize);
-    //   console.log(axios)
-    //   axios.post(store.state.exam.pageUrl,param).then(res=>{
-    //     let data = res.data
-    //     store.commit('exam/getPageData',data)
-    //   });
-    // },
     computed: {
       tableData: {
-        get: function(){return this.$store.state.exam.examDatas}
+        get: function(){
+          return this.$store.state.exam.examDatas
+            .filter(i=>i.tab===this.$store.state.admin.activeTabName)
+            .map(i=>i.data)[0]
+        }
       }
     }
   }

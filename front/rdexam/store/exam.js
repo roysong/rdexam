@@ -19,7 +19,14 @@ export const state = () => ({
 
 export const mutations = {
   getPageData(state,pageData){
-    state.examDatas = pageData
+    // state.examDatas = pageData
+    let activeData = state.examDatas.filter(i=>i.tab===pageData.tab);
+    if(activeData.length>0){
+      let index = state.examDatas.indexOf(activeData[0]);
+      state.examDatas.splice(index,1,pageData);
+    }else{
+      state.examDatas.push(pageData);
+    }
   },
   updateExam(state,newExam){
     state.nowExam = newExam;

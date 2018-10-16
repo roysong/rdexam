@@ -7,27 +7,31 @@
         :label="item.title"
         :name="item.name"
       >
-      <component :is=item.content></component>
+        <keep-alive>
+          <component :is=item.content></component>
+        </keep-alive>
       </el-tab-pane>
     </el-tabs>
   </el-main>
 </template>
 <script>
   export default {
-   computed: {
-     activeTabName: {
-       get: function(){
-         return this.$store.state.admin.activeTabName
-       },
-       set: function(newTabName){
-         this.$store.commit('admin/activeTab',newTabName)
-       }
-     },
-     tabDatas(){return this.$store.state.admin.tabDatas}
-   },
+    computed: {
+      activeTabName: {
+        get: function () {
+          return this.$store.state.admin.activeTabName
+        },
+        set: function (newTabName) {
+          this.$store.commit('admin/activeTab', newTabName)
+        }
+      },
+      tabDatas() {
+        return this.$store.state.admin.tabDatas
+      }
+    },
     methods: {
-      removeTab(targetName){
-        this.$store.commit('admin/removeTab',targetName)
+      removeTab(targetName) {
+        this.$store.commit('admin/removeTab', targetName)
         targetName = null
       }
     }

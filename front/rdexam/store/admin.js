@@ -1,17 +1,17 @@
 export const state = () => ({
   menuCollpse: false,
-  activeTabName: '',
-  tabDatas: []
+  activeTabName: '', //当前tab页名称
+  tabDatas: [] //已打开的tab页
 });
 
 export const mutations = {
-  toggle (state) {
+  toggle(state) {
     state.menuCollpse = !state.menuCollpse
   },
-  activeTab(state,tabName){
+  activeTab(state, tabName) {
     state.activeTabName = tabName
   },
-  removeTab(state,targetName){
+  removeTab(state, targetName) {
     let tabs = state.tabDatas;
     let activeName = state.activeTabName;
     if (activeName === targetName) {
@@ -27,18 +27,30 @@ export const mutations = {
     state.activeTabName = activeName;
     state.tabDatas = tabs.filter(tab => tab.name !== targetName);
   },
-  addTab(state,itemName){
-    if(!itemName) return;
+  addTab(state, itemName) {
+    if (!itemName) return;
     state.activeTabName = itemName;
     let tabs = state.tabDatas;
     let alreadyOpenTab = tabs.filter(t => t.name === itemName);
-    if(alreadyOpenTab && alreadyOpenTab.length > 0) return;
-    let tabComponent = resolve => require([`~/components/admin/${'ExamList'}`], resolve);
+    if (alreadyOpenTab && alreadyOpenTab.length > 0) return;//已打开的页面不重新加载组件
+    let tabComponent;
+    switch (itemName) {
+      case 'webtec':
+      case 'javatec':
+      case 'testtec':
+      case 'transtec':
+      case 'opertec':
+      case 'setec':
+        tabComponent = resolve => require([`~/components/admin/${'ExamController'}`], resolve);
+        break;
+      default:
+        return;
+    }
     let item = {
-          title: 'Tab '+itemName,
-          name: itemName,
-          content: tabComponent
-        };
+      title: 'Tab ' + itemName,
+      name: itemName,
+      content: tabComponent
+    };
     state.tabDatas.push(item);
   }
 };
