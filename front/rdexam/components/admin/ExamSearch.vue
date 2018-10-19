@@ -11,8 +11,8 @@
         </el-button>
       </el-form-item>
     </el-form>
-    <exam-dialog v-bind:add-form="addForm" title="新增题目" v-bind:dialog-form-visible="dialogFormVisible" v-bind:tag-options = "tagOptions"
-                 @add-item="addItem" @close-dialog="changeDialog"/>
+    <exam-dialog v-bind:form-data="addForm" title="新增题目" v-bind:dialog-form-visible="dialogFormVisible"
+                 @success="addItem" @close-dialog="changeDialog"/>
   </div>
 </template>
 
@@ -33,17 +33,7 @@
           right: '',
           major: ''
         },
-        dialogFormVisible: false,
-        tagOptions: [
-          {value: "HTML", label: 'HTML'},
-          {value: "CSS", label: 'CSS'},
-          {value: "JavaScript", label: 'JavaScript'},
-          {value: "BUI", label: 'BUI'},
-          {value: "JAVA", label: 'JAVA'},
-          {value: "MongoDb", label: 'MongoDb'},
-          {value: "Oracle", label: 'Oracle'},
-          {value: "Linux", label: 'Linux'}
-        ]
+        dialogFormVisible: false
       }
     },
     computed: {
