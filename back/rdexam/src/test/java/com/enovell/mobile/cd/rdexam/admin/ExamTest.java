@@ -34,23 +34,21 @@ public class ExamTest {
     @Before
     public void before() {
         majros = new ArrayList<>();
-        majros.add("前端技术");
-        majros.add("后端技术");
-        majros.add("测试知识");
-        majros.add("传输业务");
-        majros.add("运维环境");
-        majros.add("软件工程");
+        majros.add("webtec");//前端技术
+        majros.add("javatec");//后端技术
+        majros.add("testtec");//测试知识
+        majros.add("transtec");//传输业务
+        majros.add("opertec");//运维环境
+        majros.add("setec");//软件工程
         this.tags = new ArrayList<>();
-        tags.add("java");
-        tags.add("js");
-        tags.add("bui");
-        tags.add("oracle");
-        tags.add("mongo");
-        tags.add("trans");
-        tags.add("vue");
-        tags.add("spring");
-        tags.add("springboot");
-        tags.add("springcloud");
+        tags.add("HTML");
+        tags.add("CSS");
+        tags.add("JavaScript");
+        tags.add("BUI");
+        tags.add("JAVA");
+        tags.add("MongoDb");
+        tags.add("Oracle");
+        tags.add("Linux");
         collectionNames = new ArrayList<>();
         collectionNames.add(Exam.FRONTEND_COLLECTION_NAME);
         collectionNames.add(Exam.BACKEND_COLLECTION_NAME);
@@ -82,7 +80,7 @@ public class ExamTest {
 
             dto.setMajor(this.majros.get(majorIndex));
             List<String> tag = new ArrayList<>();
-            tag.add(this.tags.get(random.nextInt(9)));
+            tag.add(this.tags.get(random.nextInt(8)));
             dto.setTags(tag);
             dto.setRight("测试选项" + (random.nextInt(3) + 1) + ":" + id);
             enoExam.addExam(dto, collectionNames.get(majorIndex));

@@ -52,6 +52,7 @@ public class Exam {
 			int skip = limit * Integer.parseInt(currentPage);
 			MongoCursor<Document> itor = md.getCollection(activeTabName).find(filter).skip(skip).limit(limit).iterator();
 			while(itor.hasNext()) result.add(itor.next());
+			result.forEach(i->i.put("id",i.getObjectId("_id").toHexString()));
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -64,6 +65,7 @@ public class Exam {
 			MongoDatabase md = mc.getDatabase(Consts.DB_NAME);
 			Document filter = new Document("title", Pattern.compile(name));
 			for (Document document : md.getCollection(collecthonName).find(filter)) {
+				document.put("id",document.getObjectId("_id").toHexString());
 				result.add(document);
 			}
 		}

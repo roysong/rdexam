@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.enovell.mobile.cd.rdexam.admin.Exam;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -67,6 +68,29 @@ public class ExamAction {
 		System.out.println("dto = " + dto);
 		try {
 			exam.addExam(dto,dto.getMajor());
+			result.put("state",1);
+		}catch (Exception e){
+			result.put("state",0);
+		}
+		return result;
+	}
+	@RequestMapping("/exam/deleteItem")
+	public Map<String,Object> deleteItem(String id,String collectionName){
+		Map<String,Object> result = new HashMap<>();
+		System.out.println("id = [" + id + "], collectionName = [" + collectionName + "]");
+		try {
+			exam.deleteExam(id,collectionName);
+			result.put("state",1);
+		}catch (Exception e){
+			result.put("state",0);
+		}
+		return result;
+	}
+	@RequestMapping("/exam/updateExam")
+	public Map<String,Object> updateExam(@RequestBody ExamDto dto){
+		Map<String,Object> result = new HashMap<>();
+		try {
+			exam.updateExam(dto,dto.getMajor());
 			result.put("state",1);
 		}catch (Exception e){
 			result.put("state",0);
