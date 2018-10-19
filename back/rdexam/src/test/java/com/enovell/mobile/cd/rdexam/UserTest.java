@@ -33,12 +33,12 @@ public class UserTest {
 	}
 	@Test
 	public void testAdd() {
-		user.addUser("roysong", "enovell@123", true);
-		user.addUser("roysong", "811215", false);
-		User admin = user.getUser("roysong", "enovell@123");
+		user.addUser("bili", "enovell@123", true);
+		user.addUser("bili", "111111", false);
+		User admin = user.getUser("bili", "enovell@123");
 		assertNotNull(admin);
 		assertTrue(admin.getAdmin());
-		User loginUser = user.getUser("roysong", "811215");
+		User loginUser = user.getUser("bili", "111111");
 		assertNotNull(loginUser);
 		assertFalse(loginUser.getAdmin());
 	}

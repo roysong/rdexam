@@ -1,8 +1,11 @@
 package com.enovell.mobile.cd.rdexam.admin;
 
+import java.io.DataOutput;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import com.enovell.mobile.cd.rdexam.exam.ExamDto;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.model.Filters;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,12 +30,12 @@ public class Exam {
 	@Value("${mongodb.uri}")
 	private String mongoUri;
 
-	public static final String FRONTEND_COLLECTION_NAME = "eno_exam_frontend"; //前端题目
-	public static final String BACKEND_COLLECTION_NAME = "eno_exam_backend"; //后端题目
-	public static final String TEST_COLLECTION_NAME = "eno_exam_test"; //测试题目
-	public static final String TRANS_COLLECTION_NAME = "eno_exam_trans"; //传输题目
-	public static final String OPS_COLLECTION_NAME = "eno_exam_ops"; //运维题目
-	public static final String SOFTWARE_COLLECTION_NAME = "eno_exam_software"; //软件工程
+	public static final String FRONTEND_COLLECTION_NAME = "webtec"; //前端题目
+	public static final String BACKEND_COLLECTION_NAME = "javatec"; //后端题目
+	public static final String TEST_COLLECTION_NAME = "testtec"; //测试题目
+	public static final String TRANS_COLLECTION_NAME = "transtec"; //传输题目
+	public static final String OPS_COLLECTION_NAME = "opertec"; //运维题目
+	public static final String SOFTWARE_COLLECTION_NAME = "setec"; //软件工程
 	/**查询试题分页数据以供后台管理
 	 * @param activeTabName
 	 * @param currentPage
@@ -54,7 +57,18 @@ public class Exam {
 		}
 		return result;
 	}
-
+	public List<Document> queryForName(String name,String collecthonName){
+		List<Document> result = new ArrayList<>();
+		logger.info("根据关键字："+name+"查询表："+collecthonName+"的数据");
+		try(MongoClient mc = new MongoClient(new MongoClientURI(mongoUri))){
+			MongoDatabase md = mc.getDatabase(Consts.DB_NAME);
+			Document filter = new Document("title", Pattern.compile(name));
+			for (Document document : md.getCollection(collecthonName).find(filter)) {
+				result.add(document);
+			}
+		}
+		return result;
+	}
 	/**
 	 * 新增题目
 	 * @param dto 题目对象

@@ -63,4 +63,16 @@ public class ExamDto {
     public void setTags(List<String> tags) {
         this.tags = tags;
     }
+
+    @Override
+    public String toString() {
+        return "ExamDto{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", options=" + options +
+                ", right='" + right + '\'' +
+                ", major='" + major + '\'' +
+                ", tags=" + tags +
+                '}';
+    }
 }

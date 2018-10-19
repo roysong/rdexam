@@ -25,9 +25,9 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ExamTest {
-    private List<String> majros;
-    private List<String> tags;
-    private List<String> collectionNames;
+    private List<String> majros; //专业
+    private List<String> tags; //标签
+    private List<String> collectionNames; //题目表名
     @Resource(name="EnoExam")
     private Exam enoExam;
 
@@ -66,7 +66,7 @@ public class ExamTest {
 
     @Test
     public void addExam() {
-        for(int i = 0; i<200;i++) {
+        for(int i = 0; i<300;i++) {
             Random random = new Random();
             int id = random.nextInt(500);
             int majorIndex = random.nextInt(6);
@@ -113,5 +113,13 @@ public class ExamTest {
 
     @Test
     public void isRight() {
+    }
+
+    @Test
+    public void queryForName(){
+        String name = "421";
+        String collectionName = "javatec";
+        List<Document> result = enoExam.queryForName(name,collectionName);
+        assertEquals("length",2,result.size());
     }
 }

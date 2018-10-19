@@ -5,12 +5,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.enovell.mobile.cd.rdexam.admin.Exam;
 import org.bson.Document;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.enovell.mobile.cd.rdexam.admin.User;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,5 +56,21 @@ public class ExamAction {
 								   @RequestParam String currentPage,
 								   @RequestParam String pageSize){
 		return exam.query(activeTabName,currentPage,pageSize);
+	}
+	@RequestMapping("/exam/queryByName")
+	public List<Document> queryByName(@RequestParam String text,@RequestParam String collectionName){
+		return exam.queryForName(text,collectionName);
+	}
+	@RequestMapping("/exam/addExam")
+	public Map<String,Object> addExam(@RequestBody ExamDto dto){
+		Map<String,Object> result = new HashMap<>();
+		System.out.println("dto = " + dto);
+		try {
+			exam.addExam(dto,dto.getMajor());
+			result.put("state",1);
+		}catch (Exception e){
+			result.put("state",0);
+		}
+		return result;
 	}
 }
