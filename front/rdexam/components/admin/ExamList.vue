@@ -86,7 +86,6 @@
         this.changeDialog()
       },
       deleteItem(row) {
-        console.log(row);
         let params = new URLSearchParams();
         params.append("id", row.id);
         params.append("collectionName", row.major);
@@ -100,7 +99,6 @@
         })
       },
       submitExam(){
-        console.log(this.formData);
         this.$axios.post('/exam/updateExam', this.formData).then(res => {
           if (res.data && res.data.state) {
             this.$message.success("修改成功");
