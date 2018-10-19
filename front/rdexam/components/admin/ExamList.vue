@@ -34,7 +34,6 @@
       label="操作"
       width="100">
       <template slot-scope="scope">
-        <i class="el-icon-circle-plus" @click="addItem"></i>
         <i class="el-icon-info" @click="editItem(scope.row)"></i>
         <i class="el-icon-error" @click="deleteItem(scope.row)"></i>
       </template>
@@ -54,11 +53,8 @@
       editItem(row) {
         console.log(row);
       },
-      addItem() {
-      },
       deleteItem(row) {
         console.log(row);
-
       }
     },
     beforeCreate(){
